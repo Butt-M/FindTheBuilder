@@ -113,7 +113,8 @@ namespace FindTheBuilder.Controllers
 		{
 			try
 			{
-				if (model != null)
+				var data = await _transactionAppService.GetTransActiveById(model.Id);
+				if (data != null)
 				{
 					var res = await _transactionAppService.Update(model);
 					if (res != null)

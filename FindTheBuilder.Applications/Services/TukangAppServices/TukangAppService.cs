@@ -31,7 +31,7 @@ namespace FindTheBuilder.Applications.Services.TukangAppServices
 
 		public async Task<Tukang> Update(UpdateTukangDTO model)
 		{
-			var getTukang = await GetByName(model.Name);
+			var getTukang = await GetById(model.Id);
 
 			if (getTukang.Id != 0) 
 			{
@@ -46,10 +46,10 @@ namespace FindTheBuilder.Applications.Services.TukangAppServices
 			return await Task.Run(()=>(new Tukang() { Name = null }));
 		}
 
-		private async Task<Tukang> GetByName (string name)
+		private async Task<Tukang> GetById (int Id)
 		{
 			var tukang = new Tukang();
-			var getTukang = await _context.Tukang.AsNoTracking().FirstOrDefaultAsync(x => x.Name == name);
+			var getTukang = await _context.Tukang.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Id);
 			if (getTukang == null)
 			{
 				return await Task.Run(()=>(tukang));

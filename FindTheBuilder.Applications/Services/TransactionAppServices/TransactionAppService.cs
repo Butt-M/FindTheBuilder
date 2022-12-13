@@ -125,7 +125,7 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 
 						transaction.Add(d);
 					}
-					return await Task.Run(()=>(transaction));
+					return await Task.Run(() => (transaction));
 				}
 				return await Task.Run(()=>(transaction));
 			}

@@ -39,7 +39,7 @@ namespace FindTheBuilder.Applications.Services.CustomerAppServices
 		public async Task<Customers> GetByName(string name)
 		{
 			var customer = new Customers();
-			var cust = await _context.Customers.AsNoTracking().FirstOrDefaultAsync(w => w.Name == name);
+			var cust = await _context.Customers.AsNoTracking().FirstOrDefaultAsync(w => w.Name.Contains(name));
 			if (cust == null)
 			{
 				return await Task.Run(() => (customer));
