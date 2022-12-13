@@ -40,7 +40,7 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 				var paymentStat = false;
 				var trans = _mapper.Map<Transactions>(model);
 
-				if(custData.Id != 0 && trans.PriceId != 0)
+				if (custData.Id != 0 && trans.PriceId != 0)
 				{
 					dataTrans.CustomerId = custData.Id;
 					dataTrans.PriceId = trans.PriceId;
@@ -50,14 +50,14 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 					await _contex.Transactions.AddAsync(dataTrans);
 					await _contex.SaveChangesAsync();
 
-					return await Task.Run(()=>(dataTrans));
+					return await Task.Run(() => (dataTrans));
 				}
-				return await Task.Run(()=>(dataTrans));
+				return await Task.Run(() => (dataTrans));
 			}
 			catch
 			{
-				return await Task.Run(()=>(new Transactions() { CustomerId = 0 }));
-			}			
+				return await Task.Run(() => (new Transactions() { CustomerId = 0 }));
+			}
 		}
 
 		public async Task<Transactions> Update(UpdateTransactionDTO model)
@@ -65,7 +65,7 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 			var transData = await _contex.Transactions.AsNoTracking().FirstOrDefaultAsync(w => w.Id == model.Id);
 			var custData = await _customerAppService.GetByName(model.CustomerName);
 
-			if(transData != null)
+			if (transData != null)
 			{
 				var trans = _mapper.Map<Transactions>(model);
 				trans.CustomerId = custData.Id;
@@ -73,9 +73,9 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 				_contex.Transactions.Update(trans);
 				await _contex.SaveChangesAsync();
 
-				return await Task.Run(()=>(trans));
+				return await Task.Run(() => (trans));
 			}
-			return await Task.Run(()=>(transData));
+			return await Task.Run(() => (transData));
 		}
 
 		public async Task<Transactions> UpdatePayment(int transId)
@@ -93,7 +93,7 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 					_contex.Transactions.Update(trans);
 					await _contex.SaveChangesAsync();
 
-					return await Task.Run(()=>(transaction = trans));
+					return await Task.Run(() => (transaction = trans));
 				}
 				return await Task.Run(() => (transaction));
 			}
@@ -109,9 +109,9 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 			try
 			{
 				var customerData = await _contex.Transactions.AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-				if (customerData.Id != 0)
+				if (customerData.Id == 0)
 				{
-					return await Task.Run(()=>(transaction));
+					return await Task.Run(() => (transaction));
 				}
 
 				var trans = await _contex.Transactions.Where(w => w.Id == customerData.Id).Where(w => w.PaymentStatus == false).ToListAsync();
@@ -121,16 +121,13 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 					{
 						var customer = await _customerAppService.GetById(d.CustomerId);
 
-							d.Customer = customer;
+						d.Customer = customer;
 
-							transaction.Add(d);
-						}
-						return await Task.Run(() => (transaction));
+						transaction.Add(d);
 					}
-					return await Task.Run(()=>(transaction));
+					return await Task.Run(() => (transaction));
 				}
-				
-				return await Task.Run(()=>(transaction));
+				return await Task.Run(() => (transaction));
 			}
 			catch
 			{
