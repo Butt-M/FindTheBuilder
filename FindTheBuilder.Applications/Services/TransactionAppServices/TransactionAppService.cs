@@ -108,7 +108,7 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 			ICollection<Transactions> transaction = new Collection<Transactions>();
 			try
 			{
-				var customerData = await _contex.Transactions.AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
+				var customerData = await _customerAppService.GetById(id);
 				if (customerData.Id == 0)
 				{
 					return await Task.Run(() => (transaction));
