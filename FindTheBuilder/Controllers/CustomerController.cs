@@ -113,7 +113,7 @@ namespace FindTheBuilder.Controllers
 		{
 			try
 			{
-				var data = await _transactionAppService.GetTransActiveById(model.Id);
+				var data = await _transactionAppService.GetTransActiveById(model.CustomerName);
 				if (data != null)
 				{
 					var res = await _transactionAppService.Update(model);
@@ -154,11 +154,11 @@ namespace FindTheBuilder.Controllers
 
 		[HttpGet("GetActiveTransaction")]
 		[Authorize(Roles = "Customer")]
-		public async Task<IActionResult> GetActiveTransactionById(int id)
+		public async Task<IActionResult> GetActiveTransactionById(string name)
 		{
 			try
 			{
-				var data = await _transactionAppService.GetTransActiveById(id);
+				var data = await _transactionAppService.GetTransActiveById(name);
 				if (data.Count() == 0)
 				{
 					return await Task.Run(()=>(Requests.Response(this, new ApiStatus(404), null, "No Transaction")));

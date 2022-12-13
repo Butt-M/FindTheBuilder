@@ -109,24 +109,24 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 			try
 			{
 				var customerData = await _contex.Transactions.AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-				if (customerData.Id == 0)
+				if (customerData.Id != 0)
 				{
+					var trans = await _contex.Transactions.Where(w => w.Customer.Id == customerData.Id).Where(w => w.PaymentStatus == false).ToListAsync();
+					if (trans.Count() != 0)
+					{
+						foreach (var d in trans)
+						{
+							var customer = await _customerAppService.GetById(d.CustomerId);
+
+							d.Customer = customer;
+
+							transaction.Add(d);
+						}
+						return await Task.Run(() => (transaction));
+					}
 					return await Task.Run(()=>(transaction));
 				}
-
-				var trans = await _contex.Transactions.Where(w => w.Customer.Id == customerData.Id).Where(w => w.PaymentStatus == false).ToListAsync();
-				if (trans.Count() != 0)
-				{
-					foreach (var d in trans)
-					{
-						var customer = await _customerAppService.GetById(d.CustomerId);
-
-						d.Customer = customer;
-
-						transaction.Add(d);
-					}
-					return await Task.Run(() => (transaction));
-				}
+				
 				return await Task.Run(()=>(transaction));
 			}
 			catch
