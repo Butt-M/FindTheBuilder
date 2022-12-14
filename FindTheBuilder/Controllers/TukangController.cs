@@ -76,7 +76,7 @@ namespace FindTheBuilder.Controllers
 		}
 
 		[HttpGet("skill-list")]
-		//[Authorize(Roles = "Tukang")]
+		[Authorize(Roles = "Tukang")]
 		public async Task<IActionResult> GetAllSkill()
 		{
 			try
@@ -96,13 +96,13 @@ namespace FindTheBuilder.Controllers
 
 		// Prices
 		[HttpPost("CreatePricing")]
-		//[Authorize(Roles = "Tukang")]
+		[Authorize(Roles = "Tukang")]
 		[RequestSizeLimit(5 * 1024 * 1024)]
 		public async Task<IActionResult> CreatePricing([FromForm] PriceDTO model)
 		{
 			try
 			{
-				if (model != null)
+				if (model.TukangId != 0 && model.SkillId != 0 )
 				{
 					if (model.Image != null)
 					{

@@ -10,13 +10,7 @@ using FindTheBuilder.Applications.Services.TransactionDetailAppServices.DTO;
 using FindTheBuilder.Controllers;
 using FindTheBuilder.Databases.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FindTheBuilder.UnitTest.ControllerTest
 {
@@ -130,9 +124,20 @@ namespace FindTheBuilder.UnitTest.ControllerTest
 				CustomerName = "1",
 				PriceId = 1
 			};
+
+			//Arrange
+			var trans1 = new Transactions { CustomerId = 1 };
+			var trans2 = new Transactions { CustomerId = 2 };
+
+			ICollection<Transactions> data = new List<Transactions>();
+			data.Add(trans1);
+			data.Add(trans2);
+
+			Task<ICollection<Transactions>> activeTrans = Task.Run(() => (data));
 			Task<Transactions> trans = Task.Run(()=>(new Transactions() { Id = 1 }));
 
 			//Act
+			_transactionAppService.Setup(w => w.GetTransActiveById(model.Id)).Returns(activeTrans);
 			_transactionAppService.Setup(w => w.Update(model)).Returns(trans);
 			var result = _customerController.UpdateTransaction(model).Result as ObjectResult;
 
@@ -143,6 +148,7 @@ namespace FindTheBuilder.UnitTest.ControllerTest
 		[Fact]
 		public void GetAllTransactionSucces()
 		{
+			//Arrange
 			PageInfo page = new PageInfo()
 			{
 				Page = 1,
@@ -186,9 +192,7 @@ namespace FindTheBuilder.UnitTest.ControllerTest
 			data.Add(trans1);
 			data.Add(trans2);
 
-			Task<ICollection<Transactions>> activeTrans = Task.Run(() => (data));
-			
-
+			Task<ICollection<Transactions>> activeTrans = Task.Run(() => (data));		
 			int id = 1;
 
 			//Act
@@ -223,6 +227,7 @@ namespace FindTheBuilder.UnitTest.ControllerTest
 		[Fact]
 		public void GetAllPriceTest()
 		{
+			//Arrange
 			PageInfo page = new PageInfo()
 			{
 				Page = 1,

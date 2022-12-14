@@ -18,15 +18,13 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 	{
 		private AppDbContext _contex;
 		private IMapper _mapper;
-		private readonly ICustomerAppService _customerAppService;
-		private readonly IPriceAppService _priceAppService;
+		private ICustomerAppService _customerAppService;
 
-		public TransactionAppService(AppDbContext contex, IMapper mapper, ICustomerAppService customerAppService, IPriceAppService priceAppService)
+		public TransactionAppService(AppDbContext contex, IMapper mapper, ICustomerAppService customerAppService)
 		{
 			_contex = contex;
 			_mapper = mapper;
 			_customerAppService = customerAppService;
-			_priceAppService = priceAppService;
 		}
 
 		public async Task<Transactions> Create(TransactionDTO model)
@@ -82,8 +80,12 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 		{
 			var transaction = new Transactions();
 			try
-			{
+			{				
 				var transData = await _contex.Transactions.AsNoTracking().FirstOrDefaultAsync(w => w.Id == transId);
+				if(transData == null)
+				{
+					return await Task.Run(() => (transaction));
+				}
 
 				if (transData.Id != 0)
 				{
@@ -109,12 +111,12 @@ namespace FindTheBuilder.Applications.Services.TransactionAppServices
 			try
 			{
 				var customerData = await _contex.Transactions.AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-				if (customerData.Id == 0)
+				if (customerData == null)
 				{
 					return await Task.Run(() => (transaction));
 				}
 
-				var trans = await _contex.Transactions.Where(w => w.Id == customerData.Id).Where(w => w.PaymentStatus == false).ToListAsync();
+				var trans = await _contex.Transactions.AsNoTracking().Where(w => w.Id == customerData.Id).Where(w => w.PaymentStatus == false).ToListAsync();
 				if (trans.Count() != 0)
 				{
 					foreach (var d in trans)

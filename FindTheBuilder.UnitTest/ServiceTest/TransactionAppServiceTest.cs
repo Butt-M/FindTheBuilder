@@ -2,17 +2,12 @@
 using FindTheBuilder.Applications.Services.TransactionAppServices.DTO;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FindTheBuilder.UnitTest.ServiceTest
 {
     public class TransactionAppServiceTest : IClassFixture<Startup>
     {
-        private ServiceProvider _serviceProvider;
+        private readonly ServiceProvider _serviceProvider;
         public TransactionAppServiceTest(Startup fixtur)
         {
             _serviceProvider = fixtur.ServiceProvider;
@@ -23,20 +18,24 @@ namespace FindTheBuilder.UnitTest.ServiceTest
         {
             var service = _serviceProvider.GetService<ITransactionAppService>();
 
+            //Arrange
             TransactionDTO trans = new TransactionDTO()
             {
                 CustomerName = "Agus Ketoprak",
                 PriceId = 1
             };
 
+            //Act
             var result = service.Create(trans);
+
+            //Assert
             Assert.NotNull(result);
         }
 
         [Fact]
         public void Update()
         {
-            //var service = _serviceProvider.GetService<ITransactionAppService>();
+            //Arrange
             var service = new Mock<ITransactionAppService>();
 
             UpdateTransactionDTO trans = new UpdateTransactionDTO()
@@ -45,7 +44,11 @@ namespace FindTheBuilder.UnitTest.ServiceTest
 
                 PriceId = 1
             };
+
+            //Act
             var result = service.Setup(w => w.Update(trans));
+
+            //Assert
             Assert.NotNull(result);
         }
 
@@ -54,9 +57,13 @@ namespace FindTheBuilder.UnitTest.ServiceTest
         {
             var service = _serviceProvider.GetService<ITransactionAppService>();
 
+            //Arrange
             int id = 1;
 
+            //Act
             var result = service.UpdatePayment(id);
+
+            //Assert
             Assert.NotNull(result);
         }
 
@@ -65,9 +72,13 @@ namespace FindTheBuilder.UnitTest.ServiceTest
         {
             var service = _serviceProvider.GetService<ITransactionAppService>();
 
+            //Arrange
             int id = 1;
 
+            //Act
             var result = service.GetTransActiveById(id);
+
+            //Assert
             Assert.NotNull(result);
         }
     }

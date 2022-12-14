@@ -27,7 +27,6 @@ namespace FindTheBuilder.Databases
 				new { Id = 2, Name = "Garden" },
 				new { Id = 3, Name = "Pool" }
 				);
-		}
-		
+		}		
 	}
 }

@@ -20,6 +20,7 @@ namespace FindTheBuilder.UnitTest.ServiceTest
         {
             var service = _serviceProvider.GetService<ICustomerAppService>();
 
+            //Arrange
             CustomerDTO newCustomer = new CustomerDTO()
             {
                 Name = "Test",
@@ -27,7 +28,10 @@ namespace FindTheBuilder.UnitTest.ServiceTest
                 Phone = "081654732985"
             };
 
+            //Act
             var result = service.Create(newCustomer);
+
+            //Assert
             Assert.NotNull(result);
         }
 
@@ -36,6 +40,7 @@ namespace FindTheBuilder.UnitTest.ServiceTest
         {
             var service = _serviceProvider.GetService<ICustomerAppService>();
 
+            //Arrange
             UpdateCustomerDTO updateCustomer = new UpdateCustomerDTO()
             {
                 Id = 1,
@@ -44,16 +49,23 @@ namespace FindTheBuilder.UnitTest.ServiceTest
                 Phone = "081654732985"
             };
 
+            //Act
             var result = service.Update(updateCustomer);
+
+            //Assert
             Assert.NotNull(result);
         }
 
         [Fact]
         public void GetCustomerByName()
         {
+            //Arrange
             var service = _serviceProvider.GetService<ICustomerAppService>();
 
+            //Act
             var customer = service.GetByName("Test");
+
+            //Assert
             Assert.NotNull(customer);
         }
     }

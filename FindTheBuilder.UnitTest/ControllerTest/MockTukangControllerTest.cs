@@ -1,5 +1,4 @@
-﻿using FindTheBuilder.Applications.Helper;
-using FindTheBuilder.Applications.Services.PriceAppServices;
+﻿using FindTheBuilder.Applications.Services.PriceAppServices;
 using FindTheBuilder.Applications.Services.PriceAppServices.DTO;
 using FindTheBuilder.Applications.Services.SkillAppServices;
 using FindTheBuilder.Applications.Services.TukangAppServices;
@@ -8,11 +7,6 @@ using FindTheBuilder.Controllers;
 using FindTheBuilder.Databases.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FindTheBuilder.UnitTest.ControllerTest
 {
@@ -87,7 +81,8 @@ namespace FindTheBuilder.UnitTest.ControllerTest
 			//Arrange
 			PriceDTO price = new PriceDTO()
 			{
-				TukangId = 1
+				TukangId = 1,
+				SkillId = 3
 			};
 			Prices prices = new Prices()
 			{
@@ -147,6 +142,5 @@ namespace FindTheBuilder.UnitTest.ControllerTest
 			//Assert
 			Assert.Equal(200, result.StatusCode);
 		}
-
 	}
 }

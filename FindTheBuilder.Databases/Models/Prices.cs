@@ -21,8 +21,7 @@ namespace FindTheBuilder.Databases.Models
 		public int Size { get; set; }
 		public float Price { get; set; }
 		public string ImagePath { get; set; }
-		public bool IsDeleted { get; set; }
-		
+		public bool IsDeleted { get; set; }	
 
 		public virtual Tukang Tukang { get; set; }
 		public virtual Skills Skill { get; set; }

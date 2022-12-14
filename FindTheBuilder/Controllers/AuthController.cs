@@ -22,12 +22,10 @@ namespace FindTheBuilder.Controllers
 	{
 		private IAuthAppService _authAppService;
 		private IConfiguration _configuration;
-		private ITukangAppService _tukangAppService;
-		public AuthController(IAuthAppService authAppService, IConfiguration configuration, ITukangAppService tukangAppService)
+		public AuthController(IAuthAppService authAppService, IConfiguration configuration)
 		{
 			_authAppService = authAppService;
 			_configuration = configuration;
-			_tukangAppService = tukangAppService;
 		}
 
 		[HttpPost("login")]
@@ -52,7 +50,6 @@ namespace FindTheBuilder.Controllers
 					}
 
 					var jwt = await GenerateJSONWebToken(userData, role);
-					//response = Ok(new { token = jwt });
 
 					return await Task.Run(()=>(Requests.Response(this, new ApiStatus(200), Ok(new { token = jwt }), "Success")));
 				}
@@ -110,8 +107,6 @@ namespace FindTheBuilder.Controllers
 			}
 		}
 
-
-
 		private async Task<string> GenerateJSONWebToken(AuthDto model, string role)
 		{
 			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])); //jwt key mengarah ke config appsettings
@@ -129,6 +124,5 @@ namespace FindTheBuilder.Controllers
 			
 			return await Task.Run(()=>(new JwtSecurityTokenHandler().WriteToken(token)));
 		}
-
 	}
 }

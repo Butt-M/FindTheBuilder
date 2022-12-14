@@ -3,21 +3,14 @@ using FindTheBuilder.Applications.Services.PriceAppServices;
 using FindTheBuilder.Applications.Services.TransactionDetailAppServices;
 using FindTheBuilder.Applications.Services.TransactionDetailAppServices.DTO;
 using FindTheBuilder.Databases.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FindTheBuilder.UnitTest.ServiceTest
 {
 	public class TransactionDetailAppServiceTest : IClassFixture<Startup>
 	{
-		private ServiceProvider _serviceProvider;
+		private readonly ServiceProvider _serviceProvider;
 		public TransactionDetailAppServiceTest(Startup fixtur)
 		{
 			_serviceProvider = fixtur.ServiceProvider;
@@ -60,13 +53,17 @@ namespace FindTheBuilder.UnitTest.ServiceTest
 		{
 			var service = _serviceProvider.GetService<ITransactionDetailAppService>();
 
+			//Arrange
 			PageInfo page = new PageInfo()
 			{
 				Page = 1,
 				PageSize = 5
 			};
 
+			//Act
 			var result = service.GetAllTransactions(page);
+
+			//Assert
 			Assert.NotNull(result);
 		}
 	}

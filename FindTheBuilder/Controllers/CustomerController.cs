@@ -2,12 +2,10 @@
 using FindTheBuilder.Applications.Services.CustomerAppServices;
 using FindTheBuilder.Applications.Services.CustomerAppServices.DTO;
 using FindTheBuilder.Applications.Services.PriceAppServices;
-using FindTheBuilder.Applications.Services.PriceAppServices.DTO;
 using FindTheBuilder.Applications.Services.TransactionAppServices;
 using FindTheBuilder.Applications.Services.TransactionAppServices.DTO;
 using FindTheBuilder.Applications.Services.TransactionDetailAppServices;
 using FindTheBuilder.Applications.Services.TransactionDetailAppServices.DTO;
-using FindTheBuilder.Databases.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Common;
@@ -16,7 +14,6 @@ namespace FindTheBuilder.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	//[Authorize(Roles ="Customer")]
 	public class CustomerController : ControllerBase
 	{
 		private readonly ICustomerAppService _customerAppService;
@@ -151,7 +148,6 @@ namespace FindTheBuilder.Controllers
 			}
 		}
 
-
 		[HttpGet("GetActiveTransaction")]
 		[Authorize(Roles = "Customer")]
 		public async Task<IActionResult> GetActiveTransactionById(int transactionId)
@@ -184,7 +180,7 @@ namespace FindTheBuilder.Controllers
 					return await Task.Run(()=>(Requests.Response(this, new ApiStatus(200), data, "Success")));
 				}
 
-				return await Task.Run(()=>(Requests.Response(this, new ApiStatus(400), data, "Error")));
+				return await Task.Run(()=>(Requests.Response(this, new ApiStatus(400), null, "Error")));
 			}
 			catch (DbException de)
 			{

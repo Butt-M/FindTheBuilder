@@ -16,7 +16,7 @@ namespace FindTheBuilder.Applications.Services.TransactionDetailAppServices
 	{
 		private AppDbContext _context;
 		private IMapper _mapper;
-		private readonly IPriceAppService _priceAppService;
+		private IPriceAppService _priceAppService;
 
 		public TransactionDetailAppService(AppDbContext context, IMapper mapper, IPriceAppService priceAppService)
 		{

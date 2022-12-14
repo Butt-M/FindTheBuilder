@@ -1,18 +1,12 @@
 ﻿using FindTheBuilder.Applications.Services.TukangAppServices;
 using FindTheBuilder.Applications.Services.TukangAppServices.DTO;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FindTheBuilder.UnitTest.ServiceTest
 {
     public class TukangAppServiceTest : IClassFixture<Startup>
     {
-        private ServiceProvider _serviceProvider;
+        private readonly ServiceProvider _serviceProvider;
         public TukangAppServiceTest(Startup fixtur)
         {
             _serviceProvider = fixtur.ServiceProvider;
@@ -23,12 +17,16 @@ namespace FindTheBuilder.UnitTest.ServiceTest
         {
             var service = _serviceProvider.GetService<ITukangAppService>();
 
+            //Arrange
             TukangDTO tukang = new TukangDTO()
             {
                 Name = "Test",
             };
 
+            //Act
             var result = service.Create(tukang);
+
+            //Assert
             Assert.NotNull(result);
         }
 
@@ -37,13 +35,17 @@ namespace FindTheBuilder.UnitTest.ServiceTest
         {
             var service = _serviceProvider.GetService<ITukangAppService>();
 
+            //Arrange
             UpdateTukangDTO update = new UpdateTukangDTO()
             {
                 Id = 1,
                 Name = "Tis"
             };
 
+            //Act
             var result = service.Update(update);
+
+            //Assert
             Assert.NotNull(result);
         }
     }

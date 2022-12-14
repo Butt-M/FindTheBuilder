@@ -62,7 +62,6 @@ namespace FindTheBuilder.Applications.Services.PaymentAppServices
 					return Transaction;
 				}
 			}
-
 			return "Failed, Try Again";
 		}
 	}
