@@ -46,15 +46,15 @@ namespace FindTheBuilder.Applications.Services.TukangAppServices
 			return await Task.Run(()=>(new Tukang() { Name = null }));
 		}
 
-		private async Task<Tukang> GetById (int Id)
+		private async Task<Tukang> GetByName(string name)
 		{
 			var tukang = new Tukang();
-			var getTukang = await _context.Tukang.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Id);
+			var getTukang = await _context.Tukang.AsNoTracking().FirstOrDefaultAsync(x => x.Name == name);
 			if (getTukang == null)
 			{
-				return await Task.Run(()=>(tukang));
+				return await Task.Run(() => (tukang));
 			}
-			return await Task.Run(()=>(tukang = getTukang));
+			return await Task.Run(() => (tukang = getTukang));
 		}
 
 		private async Task<Tukang> GetById (int id)
